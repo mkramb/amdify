@@ -1,0 +1,12 @@
+{
+  "name": "amdify",
+  "version": "0.0.1",
+  "bin": {
+    "bower-clean": "bin/amdify"
+  },
+  "dependencies": {
+    "esprima": "^1.2.2",
+    "nomnom": "^1.8.1",
+    "rocambole": "^0.3.6"
+  }
+}
