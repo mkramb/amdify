@@ -4,12 +4,6 @@
 
     Bamboo.Views.ActionTip = Backbone.View.extend({
 
-        template: templateNamespace,
-
-        preference: function(key) {
-            return ['bamboo.user.actions', key].join('.');
-        },
-
         defaults: {
             content: '',
             params: {

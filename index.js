@@ -1,24 +1,58 @@
 'use strict';
 
-module.exports = function(source, key) {
+var formatter = require('esformatter');
+var sprintf = require('sprintf').sprintf;
+var ast = require('rocambole');
 
-  var rocambole = require('rocambole');
-  var astree = rocambole.parse(source);
-  var namespace;
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str) {
+    return this.indexOf(str) == 0;
+  };
+}
 
-  rocambole.recursive(astree, function(node) {
-    if (node.type === 'CallExpression') {
-      if (node.callee.toString() == key) {
-        namespace = node.arguments[0].value
+module.exports = function(
+  file, define,
+  template, source
+) {
+
+  var name = null;
+  var code = null;
+
+  file = file
+    .substr(0, file.lastIndexOf('.'))
+    .replace(/\./g, '-');
+
+  ast.moonwalk(ast.parse(source), function(node) {
+    if (!name && node.type === 'CallExpression') {
+      if (node.callee.toString() === define) {
+        name = String(node.arguments[0].value).trim();
       }
     }
 
-    if (node.type === 'AssignmentExpression') {
-      if (node.left.toString() === namespace) {
-        console.log(namespace, node.right.toString());
+    if (!code && node.type === 'AssignmentExpression') {
+      var left = node.left.toString();
+
+      if (left.startsWith(name)) {
+        name = String(left).trim();
+        code = node.right.toString();
       }
     }
   });
 
-};
+  if (!name || !code) {
+    return null;
+  }
 
+  var output = sprintf(template, {
+    file: file, name: name,
+    code: code, define: define
+  });
+
+  return formatter.format(
+    output, {
+      preset: 'default',
+      indent: { value: '  ' }
+    }
+  );
+
+};

@@ -5,8 +5,10 @@
     "bower-clean": "bin/amdify"
   },
   "dependencies": {
+    "esformatter": "^0.4.3",
     "esprima": "^1.2.2",
     "nomnom": "^1.8.1",
-    "rocambole": "^0.3.6"
+    "rocambole": "^0.3.6",
+    "sprintf": "^0.1.4"
   }
 }
