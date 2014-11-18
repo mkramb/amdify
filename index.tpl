@@ -1,5 +1,8 @@
-define('%(file)s', [], function () {
+define('%(filename)s', [
+  'jquery',
+  'underscore'
+], function ($, _) {
   return %(code)s;
 });
 
-%(define)s('%(name)s', null, require('%(file)s'));
+%(define)s('%(namespace)s', null, require('%(filename)s'));

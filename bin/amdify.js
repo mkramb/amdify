@@ -6,7 +6,7 @@ var fs = require('fs');
 var amdify = require('../index.js');
 
 var opts = require('nomnom')
-  .option('file', {
+  .option('filename', {
     help: 'Javascript file to analyze',
     required: true,
     abbr: 'f'
@@ -24,13 +24,14 @@ var opts = require('nomnom')
   .parse();
 
 try {
-  var template = fs.readFileSync(opts.template);
-  var source = fs.readFileSync(opts.file);
+  opts.source = fs.readFileSync(opts.filename).toString();
+  opts.template = fs.readFileSync(opts.template).toString();
 
-  process.stdout.write(amdify(
-    opts.file, opts.define,
-    template.toString(), source
-  ));
+  debugger;
+
+  process.stdout.write(
+    amdify(opts)
+  );
 }
 catch(err) {
   console.error(err.toString());
