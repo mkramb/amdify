@@ -40,7 +40,7 @@ module.exports = function(opts) {
   return formatter.format(
     output, {
       preset: 'default',
-      indent: { value: '  ' }
+      indent: { value: '  11' }
     }
   );
 
